@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Spotify Transferrer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 40px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            animation: fadeIn 0.6s ease-out;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+        .page-container h1 { font-size: 32px; margin-bottom: 20px; color: var(--spotify-green); }
+        .page-container h2 { font-size: 24px; margin-top: 30px; margin-bottom: 15px; }
+        .page-container p { margin-bottom: 15px; color: var(--text-secondary); }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-secondary); text-decoration: none; margin-bottom: 30px; transition: color 0.2s; }
+        .back-link:hover { color: var(--spotify-green); }
+    </style>
+</head>
+<body class="scroll-page">
+    <div class="background-overlay"></div>
+    <div class="page-container">
+        <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        
+        <h1>Privacy Policy</h1>
+        <p>Last updated: June 2026</p>
+        
+        <h2>1. Information We Collect</h2>
+        <p>Spotify Transferrer requires access to your Spotify account to function. During the OAuth flow, we request access to your public profile and your Liked Songs library (`user-library-read`, `user-library-modify`).</p>
+        
+        <h2>2. How We Use Your Information</h2>
+        <p>The information we access is strictly used to facilitate the transfer of your Liked Songs from one account to another. All data processing happens entirely within your local browser session.</p>
+        
+        <h2>3. Data Storage</h2>
+        <p><strong>We do not store or log your personal data.</strong> Your Spotify tokens, track IDs, and profile information are stored temporarily in your browser's `sessionStorage` and are cleared immediately once you close the tab or start over.</p>
+        
+        <h2>4. Third-Party Services</h2>
+        <p>We use the Spotify Web API to fetch and insert your songs. Please refer to Spotify's Privacy Policy to understand how they handle your data.</p>
+        
+        <h2>5. Changes to This Policy</h2>
+        <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+    </div>
+</body>
+</html>
