@@ -39,7 +39,16 @@ npm run electron-dev
 ```
 
 ### Build Desktop App
-To build the desktop application:
+To build the desktop application for production:
 ```bash
 npm run build
 ```
+
+#### After Building (Installation Steps):
+Once the build process completes successfully, follow these steps to install the app:
+
+1. Open the newly created `dist` folder in your project directory.
+2. Locate the installer executable file (e.g., `Spotify Transferrer Setup 1.0.0.exe`).
+3. Double-click the `.exe` file to run the installer.
+4. Follow the setup wizard instructions (you can choose your preferred installation directory and opt to create a desktop shortcut).
+5. Once installed, you can launch **Spotify Transferrer** from your Start menu or desktop shortcut.
