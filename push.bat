@@ -1,3 +1,3 @@
 git add .
-git commit -m "add md files"
+git commit -m "add license"
 git push
