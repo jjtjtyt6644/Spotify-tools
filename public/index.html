@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Tools</title>
-    <meta name="description" content="Transfer liked songs between Spotify accounts and view your lifetime listening stats.">
+    <meta name="description" content="Transfer liked songs and playlists between Spotify accounts and view your lifetime listening stats.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -17,6 +17,7 @@
         <div class="orb orb-3"></div>
     </div>
 
+    <!-- ======================== LANDING PAGE ======================== -->
     <div class="landing-container active" id="landing-page">
         <nav class="landing-nav">
             <div class="nav-logo">
@@ -33,7 +34,7 @@
             <div class="hero-content">
                 <i class="fa-brands fa-spotify hero-icon"></i>
                 <h1 class="hero-title">Your Ultimate Spotify Companion</h1>
-                <p class="hero-subtitle">Discover your lifetime stats or seamlessly transfer your liked songs between accounts.</p>
+                <p class="hero-subtitle">Discover your lifetime stats or seamlessly transfer your liked songs and playlists between accounts.</p>
             </div>
         </header>
 
@@ -42,8 +43,8 @@
                 <div class="feature-card clickable-tool" onclick="startApp('transfer')">
                     <div class="card-glow"></div>
                     <i class="fa-solid fa-clone tool-icon"></i>
-                    <h3>Transfer Liked Songs</h3>
-                    <p>The fastest way to migrate your entire Liked Songs library from one Spotify account to another. No duplicates, no hassle.</p>
+                    <h3>Transfer Library</h3>
+                    <p>Migrate your Liked Songs and entire playlists from one Spotify account to another. Select exactly what you want — no duplicates, no hassle.</p>
                     <button class="btn btn-spotify tool-btn">Open Transfer Tool</button>
                 </div>
                 <div class="feature-card clickable-tool" onclick="startApp('stats')">
@@ -73,23 +74,28 @@
         </footer>
     </div>
 
+    <!-- ======================== TRANSFER APP ======================== -->
     <div class="app-container hidden" id="app-container">
         <aside class="sidebar">
             <div class="logo">
                 <i class="fa-brands fa-spotify"></i>
                 <h2>Transferrer</h2>
             </div>
-            <ul class="progress-tracker">
-                <li class="step active" id="nav-step-1">
-                    <div class="step-icon"><i class="fa-solid fa-1"></i></div>
+            <ul class="progress-tracker" role="list" aria-label="Transfer progress steps">
+                <li class="step active" id="nav-step-1" aria-current="step">
+                    <div class="step-icon" aria-hidden="true"><i class="fa-solid fa-1"></i></div>
                     <div class="step-text">Source</div>
                 </li>
                 <li class="step" id="nav-step-2">
-                    <div class="step-icon"><i class="fa-solid fa-2"></i></div>
+                    <div class="step-icon" aria-hidden="true"><i class="fa-solid fa-2"></i></div>
                     <div class="step-text">Destination</div>
                 </li>
                 <li class="step" id="nav-step-3">
-                    <div class="step-icon"><i class="fa-solid fa-3"></i></div>
+                    <div class="step-icon" aria-hidden="true"><i class="fa-solid fa-3"></i></div>
+                    <div class="step-text">Select Content</div>
+                </li>
+                <li class="step" id="nav-step-4">
+                    <div class="step-icon" aria-hidden="true"><i class="fa-solid fa-4"></i></div>
                     <div class="step-text">Transfer</div>
                 </li>
             </ul>
@@ -100,17 +106,19 @@
             </div>
         </aside>
 
-        <main class="wizard-container">
-            <section class="wizard-panel active" id="panel-step-1">
+        <main class="wizard-container" id="transfer-wizard">
+
+            <!-- Step 1: Source Account -->
+            <section class="wizard-panel active" id="panel-step-1" aria-labelledby="step1-heading">
                 <div class="panel-header">
-                    <h1>Connect Source Account</h1>
-                    <p>Select the Spotify account you want to copy Liked Songs from.</p>
+                    <h1 id="step1-heading">Connect Source Account</h1>
+                    <p>Select the Spotify account you want to copy from.</p>
                 </div>
                 <div class="panel-body centered">
                     <div id="source-profile" class="profile-card hidden">
-                        <img src="" alt="Profile Image" id="source-avatar" class="avatar">
+                        <img src="" alt="Source account profile picture" id="source-avatar" class="avatar">
                         <h3 id="source-name">User Name</h3>
-                        <p id="source-count">Loading liked songs...</p>
+                        <p id="source-count" class="profile-meta">Loading liked songs...</p>
                         <button class="btn btn-secondary" onclick="window.location.href='/'">Change Account</button>
                     </div>
                     <button class="btn btn-spotify" id="btn-connect-source" onclick="connectAccount('source')">
@@ -118,91 +126,173 @@
                     </button>
                 </div>
                 <div class="panel-footer">
-                    <button class="btn btn-primary hidden" id="btn-next-1" onclick="goToStep(2)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
+                    <span></span>
+                    <button class="btn btn-primary hidden" id="btn-next-1" onclick="goToStep(2)">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
             </section>
 
-            <section class="wizard-panel" id="panel-step-2">
+            <!-- Step 2: Destination Account -->
+            <section class="wizard-panel" id="panel-step-2" aria-labelledby="step2-heading">
                 <div class="panel-header">
-                    <h1>Connect Destination Account</h1>
-                    <p>Where should we transfer the liked songs?</p>
+                    <h1 id="step2-heading">Connect Destination Account</h1>
+                    <p>Where should we transfer your content?</p>
                 </div>
-                <div class="panel-alert warning">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
+                <div class="panel-alert warning" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                     <div>
                         <strong>Important:</strong> Please log out of your current Spotify account before connecting the destination to prevent session overlap.
-                        <br><a href="https://accounts.spotify.com/en/logout" target="_blank" class="logout-link">Click here to log out of Spotify</a>
+                        <br><a href="https://accounts.spotify.com/en/logout" target="_blank" class="logout-link" rel="noopener noreferrer">Click here to log out of Spotify</a>
                     </div>
                 </div>
                 <div class="panel-body centered">
                     <div id="dest-profile" class="profile-card hidden">
-                        <img src="" alt="Profile Image" id="dest-avatar" class="avatar">
+                        <img src="" alt="Destination account profile picture" id="dest-avatar" class="avatar">
                         <h3 id="dest-name">User Name</h3>
-                        <p>Ready to receive songs.</p>
+                        <p class="profile-meta">Ready to receive content.</p>
                     </div>
                     <button class="btn btn-spotify" id="btn-connect-dest" onclick="connectAccount('destination')">
                         <i class="fa-brands fa-spotify"></i> Connect Destination Spotify
                     </button>
                 </div>
                 <div class="panel-footer">
-                    <button class="btn btn-secondary" onclick="goToStep(1)">Back</button>
-                    <button class="btn btn-primary hidden" id="btn-next-2" onclick="goToStep(3)">Review Transfer <i class="fa-solid fa-arrow-right"></i></button>
+                    <button class="btn btn-secondary" onclick="goToStep(1)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button class="btn btn-primary hidden" id="btn-next-2" onclick="goToStep(3)">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
             </section>
 
-            <section class="wizard-panel" id="panel-step-3">
+            <!-- Step 3: Select Content -->
+            <section class="wizard-panel" id="panel-step-3" aria-labelledby="step3-heading">
                 <div class="panel-header">
-                    <h1>Review &amp; Transfer</h1>
-                    <p>You are about to copy <strong id="review-count">0</strong> songs.</p>
+                    <h1 id="step3-heading">Select Content to Transfer</h1>
+                    <p>Choose exactly what you want to copy to the destination account.</p>
+                </div>
+                <div class="panel-body" style="overflow: hidden; gap: 0;">
+
+                    <!-- Liked Songs Toggle -->
+                    <div class="content-toggle-row">
+                        <div class="content-toggle-info">
+                            <i class="fa-solid fa-heart toggle-icon" aria-hidden="true"></i>
+                            <div>
+                                <div class="content-toggle-title">Liked Songs</div>
+                                <div class="content-toggle-sub" id="liked-songs-count-label">Loading count...</div>
+                            </div>
+                        </div>
+                        <label class="toggle-switch" for="toggle-liked" aria-label="Include Liked Songs in transfer">
+                            <input type="checkbox" id="toggle-liked" checked>
+                            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                        </label>
+                    </div>
+
+                    <!-- Playlists Section -->
+                    <div class="playlists-section">
+                        <div class="playlists-header">
+                            <div class="playlists-header-left">
+                                <i class="fa-solid fa-list-music" aria-hidden="true"></i>
+                                <span>Your Playlists</span>
+                                <span class="playlist-count-badge" id="playlist-count-badge">0</span>
+                            </div>
+                            <div class="playlists-header-actions">
+                                <button class="btn-text" onclick="selectAllPlaylists(true)" id="btn-select-all">Select All</button>
+                                <span class="divider-dot">·</span>
+                                <button class="btn-text" onclick="selectAllPlaylists(false)" id="btn-deselect-all">Deselect All</button>
+                            </div>
+                        </div>
+                        <div class="playlist-list-container" id="playlist-list-container" role="group" aria-label="Select playlists to transfer">
+                            <div class="playlist-loading" id="playlist-loading">
+                                <div class="spinner"></div>
+                                <span>Loading your playlists...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-secondary" onclick="goToStep(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button class="btn btn-primary" id="btn-next-3" onclick="goToStep(4)">
+                        Review Transfer <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Step 4: Review & Transfer -->
+            <section class="wizard-panel" id="panel-step-4" aria-labelledby="step4-heading">
+                <div class="panel-header">
+                    <h1 id="step4-heading">Review &amp; Transfer</h1>
+                    <p>Confirm the details below, then start the transfer.</p>
                 </div>
                 <div class="panel-body">
+                    <!-- Account Summary -->
                     <div class="transfer-summary">
                         <div class="summary-card">
                             <span class="label">From</span>
                             <strong id="summary-source">Source</strong>
                         </div>
-                        <i class="fa-solid fa-arrow-right-long transfer-arrow"></i>
-                        <div class="summary-card">
+                        <i class="fa-solid fa-arrow-right-long transfer-arrow" aria-hidden="true"></i>
+                        <div class="summary-card" style="text-align: right;">
                             <span class="label">To</span>
                             <strong id="summary-dest">Destination</strong>
                         </div>
                     </div>
+
+                    <!-- Content Summary -->
+                    <div class="review-content-summary" id="review-content-summary">
+                        <div class="review-item" id="review-liked-item">
+                            <i class="fa-solid fa-heart" aria-hidden="true"></i>
+                            <span><strong id="review-liked-count">0</strong> Liked Songs</span>
+                        </div>
+                        <div class="review-item" id="review-playlists-item">
+                            <i class="fa-solid fa-list-music" aria-hidden="true"></i>
+                            <span><strong id="review-playlist-count">0</strong> Playlists</span>
+                        </div>
+                    </div>
+
+                    <!-- Transfer Progress (hidden until started) -->
                     <div id="transfer-active-ui" class="hidden">
                         <div class="progress-bar-container">
-                            <div class="progress-bar" id="transfer-progress-bar" style="width: 0%"></div>
+                            <div class="progress-bar" id="transfer-progress-bar" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <div class="progress-stats">
                             <span id="transfer-status-text">Preparing...</span>
                             <span id="transfer-percentage">0%</span>
                         </div>
-                        <div class="log-console" id="log-console"></div>
+                        <div class="log-console" id="log-console" aria-live="polite" aria-label="Transfer log"></div>
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <button class="btn btn-secondary" id="btn-back-3" onclick="goToStep(2)">Back</button>
-                    <button class="btn btn-primary" id="btn-start-transfer" onclick="startTransfer()">Start Transfer</button>
+                    <button class="btn btn-secondary" id="btn-back-4" onclick="goToStep(3)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button class="btn btn-primary" id="btn-start-transfer" onclick="startTransfer()">
+                        <i class="fa-solid fa-bolt"></i> Start Transfer
+                    </button>
                 </div>
             </section>
 
-            <section class="wizard-panel" id="panel-step-4">
+            <!-- Step 5: Done -->
+            <section class="wizard-panel" id="panel-step-5" aria-labelledby="step5-heading">
                 <div class="panel-header">
-                    <h1>Transfer Complete!</h1>
-                    <p>Your liked songs have been successfully transferred.</p>
+                    <h1 id="step5-heading">Transfer Complete!</h1>
+                    <p>Your content has been successfully transferred.</p>
                 </div>
                 <div class="panel-body centered">
                     <div class="success-icon">
-                        <i class="fa-solid fa-circle-check"></i>
+                        <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
                     </div>
-                    <h2><span id="success-count">0</span> songs transferred</h2>
-                    <p>Enjoy your newly populated library!</p>
+                    <h2><span id="success-tracks-count">0</span> tracks transferred</h2>
+                    <p style="color: var(--text-dim); margin-top: 8px;" id="success-playlists-msg"></p>
                 </div>
                 <div class="panel-footer centered">
-                    <button class="btn btn-primary" onclick="restartApp()">Start Over</button>
+                    <button class="btn btn-primary" onclick="restartApp()">
+                        <i class="fa-solid fa-rotate-left"></i> Start Over
+                    </button>
                 </div>
             </section>
+
         </main>
     </div>
 
+    <!-- ======================== STATS APP ======================== -->
     <div class="stats-app-container hidden" id="stats-app-container">
         <aside class="sidebar no-print">
             <div class="logo">
@@ -315,8 +405,8 @@
         </main>
     </div>
 
-    <div id="error-toast" class="toast hidden">
-        <i class="fa-solid fa-circle-exclamation"></i>
+    <div id="error-toast" class="toast hidden" role="alert" aria-live="assertive">
+        <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
         <span id="error-message">An error occurred.</span>
     </div>
 

@@ -36,7 +36,7 @@ app.get('/api/auth/login', (req, res) => {
     
     // Store type in state to retrieve in callback
     const state = type;
-    const scope = 'user-read-private user-read-email user-library-read user-library-modify user-top-read';
+    const scope = 'user-read-private user-read-email user-library-read user-library-modify user-top-read playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private';
     
     const authUrl = new URL('https://accounts.spotify.com/authorize');
     authUrl.searchParams.append('response_type', 'code');
